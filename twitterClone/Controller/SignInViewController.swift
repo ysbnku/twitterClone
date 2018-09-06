@@ -38,6 +38,7 @@ class SignInViewController: UIViewController {
                             if DataSnapshot.exists() {
                                 let email = DataSnapshot.value as! String
                                self.logInWithEmail(email: email, password: self.kullanıcıPass.text!)
+                              
                             }else{
                                self.showAlert(tittleText: "", messageText: "Birşeyler yanlış gidiyor.")
                             }
@@ -50,6 +51,8 @@ class SignInViewController: UIViewController {
             }
             else{
             logInWithEmail(email: kullanıcıID.text!, password: kullanıcıPass.text!)
+              
+                
 
             }
             
@@ -79,6 +82,8 @@ class SignInViewController: UIViewController {
     //Giriş Fonksiyonu
     func logInWithEmail(email:String , password:String){
             Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+                UserDefaults.standard.set(email, forKey: "email")
+                UserDefaults.standard.set(password, forKey: "password")
                 if(error != nil )
                 {
                     if let hataKodu = AuthErrorCode(rawValue: error!._code) {
@@ -102,9 +107,10 @@ class SignInViewController: UIViewController {
                         let mentionName = value?["MentionName"] as? String ?? ""
                         print(mentionName)
                         
+                        
                         if !(mentionName.isEmpty) {
                             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                            let startTweet = storyboard.instantiateViewController(withIdentifier: "tweetScreen") as! TweetScreenViewController
+                            let startTweet = storyboard.instantiateViewController(withIdentifier: "tweetScreen") 
                             self.present(startTweet, animated: true, completion: nil)
                             
                         }else {

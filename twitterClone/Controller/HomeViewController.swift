@@ -30,9 +30,11 @@ class HomeViewController: UIViewController {
     func saveFirebase() {
         let userID = Auth.auth().currentUser?.uid
         print(userID!)
+        
         ref.child("mentionName").child(self.mentionName.text!).observeSingleEvent(of: .value) { (Datasnapshott) in
-            if(!Datasnapshott.exists()){
-                self.ref.child("users").child(userID!).child("MentionName").setValue(self.mentionName.text!)
+            if(!Datasnapshott.exists())
+            {
+                self.ref.child("users").child(userID!).child("MentionName").setValue(self.mentionName.text!.lowercased())
                 self.ref.child("users").child(userID!).child("FullName").setValue(self.fullName.text!)
                 self.ref.child("users").child(userID!).child("about").setValue(self.about.text!)
                 self.ref.child("mentionName").child(self.mentionName.text!.lowercased()).setValue(userID!)
@@ -41,7 +43,7 @@ class HomeViewController: UIViewController {
             {
                 print("MentionName Kontrol ET")
             }
-        }
+        }  
         
     }
 
